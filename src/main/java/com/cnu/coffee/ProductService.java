@@ -9,8 +9,8 @@ public class ProductService {
     @Autowired
     ProductRepository pr;
 
-    public String insert(Product product){
-        return pr.insert(product);
+    public void insert(Product product){
+        pr.insert(product);
     }
 
 }

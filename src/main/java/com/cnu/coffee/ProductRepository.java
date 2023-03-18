@@ -1,19 +1,32 @@
 package com.cnu.coffee;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+
 
 @Repository
 public class ProductRepository {
 
-    Map<Long, Product> db = new HashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(ProductRepository.class);
 
+    @Autowired
+    EntityManagerFactory emf;
 
-    public String insert(Product product) {
-        db.put(product.getId(), product);
+    public void insert(Product product) {
 
-        return db.get(product.getId()).getName();
+        EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        transaction.begin();
+        entityManager.persist(product);
+        transaction.commit();
+
     }
+
 }

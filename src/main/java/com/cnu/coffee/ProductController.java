@@ -12,9 +12,12 @@ public class ProductController {
     @Autowired
     ProductService ps;
 
-    private Long id = 0L;
+
     @RequestMapping(value = "/product", method = RequestMethod.GET)
-    public String insert(@RequestParam("name") String name, @RequestParam("price") int price) {
-        return ps.insert(new Product(id++, name, price));
+    public void insert(@RequestParam("name") String name, @RequestParam("price") int price) {
+        Product product = new Product();
+        product.setName(name);
+        product.setPrice(price);
+        ps.insert(product);
     }
 }
