@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
-
 @Repository
 public class ProductRepository {
 
@@ -26,7 +25,5 @@ public class ProductRepository {
         transaction.begin();
         entityManager.persist(product);
         transaction.commit();
-
     }
-
 }
