@@ -9,14 +9,14 @@ public class ProductController {
     @Autowired
     ProductService ps;
 
-    @GetMapping("/product")
-    public void insert(@RequestParam("name") String name, @RequestParam("price") int price) {
+    @GetMapping("/save")
+    public void save(@RequestParam("name") String name, @RequestParam("price") int price) {
 
         ProductDto productDto = ProductDto.builder()
                 .name(name)
                 .price(price)
                 .build();
 
-        ps.insert(productDto);
+        ps.save(productDto);
     }
 }

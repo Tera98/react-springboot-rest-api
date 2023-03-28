@@ -9,8 +9,8 @@ public class ProductService {
     @Autowired
     ProductRepository pr;
 
-    public void insert(ProductDto productdto){
+    public void save(ProductDto productdto){
         Product product = productdto.toEntity(productdto);
-        pr.insert(product);
+        pr.save(product);
     }
 }

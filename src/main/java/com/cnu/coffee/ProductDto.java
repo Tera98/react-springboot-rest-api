@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDto {
 
-    long id;
+    Long id;
     String name;
     int price;
     String origin;
