@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderDto {
 
+    OrderStatus os;
+
     Long orderId;
     Long productId;
     Long customerId;
@@ -24,13 +26,20 @@ public class OrderDto {
     }
 
     public Order toEntity(OrderDto orderDto) {
-
         return Order.builder()
                 .customerId(this.customerId)
                 .productId(this.productId)
                 .orderStatus(this.orderStatus)
                 .numberOfProducts(this.numberOfProducts)
-                .totalPrice(this.numberOfProducts * 2)
+                .totalPrice(this.totalPrice)
                 .build();
+    }
+
+    public void updateStatus(String orderStatus){
+        this.orderStatus = orderStatus;
+    }
+
+    public void updateTotalPrice(int price) {
+        this.totalPrice = price * this.numberOfProducts;
     }
 }

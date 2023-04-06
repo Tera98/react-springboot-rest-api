@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     @Autowired
-    OrderService os;
-    @Autowired
-    OrderRepository or;
+    OrderService orderService;
 
     @RequestMapping("/order/save")
     public void orderSave(@RequestBody OrderDto orderDto) {
-        os.orderSave(orderDto);
+        orderService.orderSave(orderDto);
     }
 }
