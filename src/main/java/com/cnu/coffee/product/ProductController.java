@@ -3,6 +3,7 @@ package com.cnu.coffee.product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @RestController
@@ -13,23 +14,24 @@ public class ProductController {
     @Autowired
     ProductRepository pr;
 
-    @RequestMapping("/save")
-    public void save(@RequestBody ProductDto productDto) {
-        ps.save(productDto);
+    @RequestMapping("/product/save")
+    public void productSave(@RequestBody ProductDto productDto) {
+        ps.productSave(productDto);
     }
 
-    @RequestMapping("/update")
-    public void update(@RequestBody ProductDto productDto) {
-        ps.update(productDto);
+    @RequestMapping("/product/update")
+    public void productUpdate(@RequestBody ProductDto productDto) {
+        ps.productUpdate(productDto);
     }
 
-    @RequestMapping("/search")
-    public Optional<Product> search(@RequestBody ProductDto productDto){
-        return pr.findById(productDto.getId());
+    @RequestMapping("/product/search")
+    public Optional<Product> productSearch(@RequestBody ProductDto productDto){
+        return Optional.ofNullable(pr.findById(productDto.getId()).orElseThrow(() ->
+                new EntityNotFoundException("User not found with id " + productDto.getId())));
     }
 
-    @RequestMapping("/delete")
-    public void delete(@RequestBody ProductDto productDto){
-        ps.delete(productDto);
+    @RequestMapping("/product/delete")
+    public void productDelete(@RequestBody ProductDto productDto){
+        ps.productDelete(productDto);
     }
 }
