@@ -18,12 +18,13 @@ public class Customer {
     String customerName;
     String customerEmail;
     String customerPhoneNum;
+    String customerAddress;
 
     @Builder
-    public Customer(Long customerId, String customerName, String customerEmail, String customerPhoneNum) {
-        this.customerId = customerId;
+    public Customer(String customerName, String customerEmail, String customerPhoneNum, String customerAddress) {
         this.customerName = customerName;
         this.customerEmail = customerEmail;
         this.customerPhoneNum = customerPhoneNum;
+        this.customerAddress = customerAddress;
     }
 }
