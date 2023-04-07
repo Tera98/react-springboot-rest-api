@@ -15,4 +15,19 @@ public class OrderController {
     public void orderSave(@RequestBody OrderDto orderDto) {
         orderService.orderSave(orderDto);
     }
+
+    @RequestMapping("/order/search")
+    public Order orderSearch(@RequestBody OrderDto orderDto) {
+        return orderService.orderSearch(orderDto);
+    }
+
+    @RequestMapping("/order/update")
+    public void orderUpdate(@RequestBody OrderDto orderDto) {
+        orderService.orderUpdate(orderDto);
+    }
+
+    @RequestMapping("/order/delete")
+    public void orderDelete(@RequestBody OrderDto orderDto) {
+        orderService.orderDelete(orderDto);
+    }
 }
