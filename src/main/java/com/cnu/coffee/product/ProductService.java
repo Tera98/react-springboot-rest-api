@@ -13,14 +13,13 @@ public class ProductService {
     ProductRepository productRepository;
 
     public void productSave(ProductDto productdto) {
-        Product product = productdto.toEntity(productdto);
-        productRepository.save(product);
+        productRepository.save(productdto.toEntity());
     }
 
     public void productUpdate(ProductDto productDto) {
         Product product = productRepository.findById(productDto.getProductId()).orElseThrow(() ->
                 new EntityNotFoundException("User not found with id " + productDto.getProductId()));
-        productRepository.save(product.updateProduct(product,productDto));
+        productRepository.save(productDto.updateProduct(product,productDto));
     }
     public Optional<Product> productSearch(ProductDto productDto) {
         return Optional.ofNullable(productRepository.findById(productDto.getProductId()).orElseThrow(() ->

@@ -2,22 +2,33 @@ package com.cnu.coffee.product;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.modelmapper.ModelMapper;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class ProductDto {
 
-    Long id;
-    String name;
-    Integer price;
-    String origin;
+    Long productId;
+    String productName;
+    Integer productPrice;
+    String productOrigin;
 
-    public Product toEntity(ProductDto productdto) {
+    public Product toEntity() {
         return Product.builder()
-                .id(this.id)
-                .name(this.name)
-                .price(this.price)
-                .origin(this.origin)
+                .productId(this.productId)
+                .productName(this.productName)
+                .productPrice(this.productPrice)
+                .productOrigin(this.productOrigin)
                 .build();
+    }
+
+    public Product updateProduct(Product product, ProductDto newData) {
+        ProductDto oldData = product.toDto();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        modelMapper.map(newData, oldData);
+        return oldData.toEntity();
     }
 }

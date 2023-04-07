@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 
@@ -15,25 +17,22 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    Integer price;
-    String origin;
+    Long productId;
+    String productName;
+    Integer productPrice;
+    String productOrigin;
 
     @Builder
-    public Product(Long id, String name, Integer price, String origin) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.origin = origin;
+    public Product(Long productId, String productName, Integer productPrice, String productOrigin) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productOrigin = productOrigin;
     }
-
-    public Product updateProduct(Product product, ProductDto productDto){
-        return Product.builder()
-                .id(product.getId())
-                .name(productDto.getName() != null ? productDto.getName() : product.getName())
-                .price(productDto.getPrice() != null ? productDto.getPrice() : product.getPrice())
-                .origin(productDto.getOrigin() != null ? productDto.getOrigin() : product.getOrigin())
-                .build();
+    public ProductDto toDto(){
+        ProductDto productDto = new ProductDto();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.map(this,productDto);
+        return productDto;
     }
 }
