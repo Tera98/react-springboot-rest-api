@@ -17,9 +17,9 @@ public class ProductService {
     }
 
     public void productUpdate(ProductDto productDto) {
-        Product product = productRepository.findById(productDto.getProductId()).orElseThrow(() ->
+        Product oldData = productRepository.findById(productDto.getProductId()).orElseThrow(() ->
                 new EntityNotFoundException("User not found with id " + productDto.getProductId()));
-        productRepository.save(productDto.updateProduct(product,productDto));
+        productRepository.save(productDto.updateProduct(oldData));
     }
     public Optional<Product> productSearch(ProductDto productDto) {
         return Optional.ofNullable(productRepository.findById(productDto.getProductId()).orElseThrow(() ->

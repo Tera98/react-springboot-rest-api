@@ -24,11 +24,11 @@ public class ProductDto {
                 .build();
     }
 
-    public Product updateProduct(Product product, ProductDto newData) {
+    public Product updateProduct(Product product) {
         ProductDto oldData = product.toDto();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setSkipNullEnabled(true);
-        modelMapper.map(newData, oldData);
+        modelMapper.map(this, oldData);
         return oldData.toEntity();
     }
 }
