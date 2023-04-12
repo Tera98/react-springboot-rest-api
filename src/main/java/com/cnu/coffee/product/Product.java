@@ -3,8 +3,6 @@ package com.cnu.coffee.product;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
@@ -29,10 +27,10 @@ public class Product {
         this.productPrice = productPrice;
         this.productOrigin = productOrigin;
     }
-    public ProductDto toDto(){
+
+    public ProductDto toDto() {
         ProductDto productDto = new ProductDto();
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.map(this,productDto);
+        BeanUtils.copyProperties(this, productDto);
         return productDto;
     }
 }

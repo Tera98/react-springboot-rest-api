@@ -1,12 +1,12 @@
 package com.cnu.coffee.order;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -19,24 +19,26 @@ public class Order {
     Long orderId;
     Long productId;
     Long customerId;
-    String orderStatus;
+    @Enumerated(value = EnumType.STRING)
+    OrderStatus orderStatus;
     Integer numberOfProducts;
     Integer totalPrice;
+    LocalDateTime orderCreatedAt;
 
     @Builder
-    public Order(Long orderId, Long productId, Long customerId, String orderStatus, int numberOfProducts, int totalPrice) {
+    public Order(Long orderId, Long productId, Long customerId, OrderStatus orderStatus, Integer numberOfProducts, Integer totalPrice, LocalDateTime orderCreatedAt) {
         this.orderId = orderId;
         this.productId = productId;
         this.customerId = customerId;
         this.orderStatus = orderStatus;
         this.numberOfProducts = numberOfProducts;
         this.totalPrice = totalPrice;
+        this.orderCreatedAt = orderCreatedAt;
     }
 
     public OrderDto toDto() {
-        ModelMapper modelMapper = new ModelMapper();
         OrderDto orderDto = new OrderDto();
-        modelMapper.map(this, orderDto);
+        BeanUtils.copyProperties(this, orderDto);
         return orderDto;
     }
 }
