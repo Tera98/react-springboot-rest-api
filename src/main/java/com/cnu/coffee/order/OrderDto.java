@@ -1,20 +1,19 @@
 package com.cnu.coffee.order;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 
 import static com.cnu.coffee.common.GetNullPropertyNames.getNullPropertyNames;
 
-@Getter
-@Setter
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDto {
+public class OrderDto{
 
     Long orderId;
     Long productId;
@@ -22,7 +21,8 @@ public class OrderDto {
     OrderStatus orderStatus;
     Integer numberOfProducts;
     Integer totalPrice;
-    LocalDateTime orderCreatedAt = LocalDateTime.now();
+    LocalDateTime orderCreatedAt;
+    LocalDateTime orderUpdatedAt;
 
     public Order toEntity() {
         return Order.builder()
@@ -33,6 +33,7 @@ public class OrderDto {
                 .numberOfProducts(this.numberOfProducts)
                 .totalPrice(this.totalPrice)
                 .orderCreatedAt(this.orderCreatedAt)
+                .orderUpdatedAt(LocalDateTime.now())
                 .build();
     }
 
@@ -50,4 +51,3 @@ public class OrderDto {
         return oldData;
     }
 }
-

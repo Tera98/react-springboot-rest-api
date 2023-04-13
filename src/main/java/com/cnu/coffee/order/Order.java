@@ -24,9 +24,10 @@ public class Order {
     Integer numberOfProducts;
     Integer totalPrice;
     LocalDateTime orderCreatedAt;
+    LocalDateTime orderUpdatedAt;
 
     @Builder
-    public Order(Long orderId, Long productId, Long customerId, OrderStatus orderStatus, Integer numberOfProducts, Integer totalPrice, LocalDateTime orderCreatedAt) {
+    public Order(Long orderId, Long productId, Long customerId, OrderStatus orderStatus, Integer numberOfProducts, Integer totalPrice, LocalDateTime orderCreatedAt, LocalDateTime orderUpdatedAt) {
         this.orderId = orderId;
         this.productId = productId;
         this.customerId = customerId;
@@ -34,6 +35,7 @@ public class Order {
         this.numberOfProducts = numberOfProducts;
         this.totalPrice = totalPrice;
         this.orderCreatedAt = orderCreatedAt;
+        this.orderUpdatedAt = orderUpdatedAt;
     }
 
     public OrderDto toDto() {
