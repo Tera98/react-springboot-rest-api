@@ -13,7 +13,7 @@ import static com.cnu.coffee.common.GetNullPropertyNames.getNullPropertyNames;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDto{
+public class OrderDto {
 
     Long orderId;
     Long productId;
@@ -26,23 +26,15 @@ public class OrderDto{
 
     public Order toEntity() {
         return Order.builder()
-                .orderId(this.orderId)
-                .customerId(this.customerId)
-                .productId(this.productId)
-                .orderStatus(this.orderStatus)
-                .numberOfProducts(this.numberOfProducts)
-                .totalPrice(this.totalPrice)
-                .orderCreatedAt(this.orderCreatedAt)
+                .orderId(orderId)
+                .customerId(customerId)
+                .productId(productId)
+                .orderStatus(orderStatus)
+                .numberOfProducts(numberOfProducts)
+                .totalPrice(totalPrice)
+                .orderCreatedAt(orderCreatedAt)
                 .orderUpdatedAt(LocalDateTime.now())
                 .build();
-    }
-
-    public void updateStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public void updateTotalPrice(int price) {
-        this.totalPrice = price * this.numberOfProducts;
     }
 
     public OrderDto updateOrder(Order order) {

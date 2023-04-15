@@ -22,7 +22,7 @@ public class DeliveryService {
         if (data.getOrderStatus() != OrderStatus.PAYMENT_COMPLETE) {
             throw new DeliveryException(DeliveryExceptionType.INVALID_STATUS);
         }
-        data.updateStatus(OrderStatus.PREPARING_PRODUCT);
+        data.setOrderStatus(OrderStatus.PREPARING_PRODUCT);
         orderRepository.save(data.toEntity());
     }
 
@@ -32,7 +32,7 @@ public class DeliveryService {
         if (data.getOrderStatus() != OrderStatus.PREPARING_PRODUCT) {
             throw new DeliveryException(DeliveryExceptionType.INVALID_STATUS);
         }
-        data.updateStatus(OrderStatus.START_DELIVERING);
+        data.setOrderStatus(OrderStatus.START_DELIVERING);
         orderRepository.save(data.toEntity());
     }
 
@@ -42,7 +42,7 @@ public class DeliveryService {
         if (data.getOrderStatus() != OrderStatus.START_DELIVERING) {
             throw new DeliveryException(DeliveryExceptionType.INVALID_STATUS);
         }
-        data.updateStatus(OrderStatus.DELIVERING);
+        data.setOrderStatus(OrderStatus.DELIVERING);
         orderRepository.save(data.toEntity());
     }
 
@@ -52,7 +52,7 @@ public class DeliveryService {
         if (data.getOrderStatus() != OrderStatus.DELIVERING) {
             throw new DeliveryException(DeliveryExceptionType.INVALID_STATUS);
         }
-        data.updateStatus(OrderStatus.DELIVERING_COMPLETE);
+        data.setOrderStatus(OrderStatus.DELIVERING_COMPLETE);
         orderRepository.save(data.toEntity());
     }
 }

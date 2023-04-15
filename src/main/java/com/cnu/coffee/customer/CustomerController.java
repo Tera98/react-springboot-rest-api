@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/customer")
 public class CustomerController {
 
     @Autowired
     CustomerService customerService;
 
-    @RequestMapping("/customer/save")
-    public void customerSave(@RequestBody CustomerDto customerDto){
-        customerService.customerSave(customerDto);
+    @RequestMapping("/save")
+    public void saveCustomer(@RequestBody CustomerDto customerDto){
+        customerService.saveCustomer(customerDto);
     }
 }

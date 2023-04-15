@@ -14,27 +14,26 @@ public class OrderService {
     @Autowired
     ProductRepository productRepository;
 
-    public void orderSave(OrderDto orderDto) {
-        orderDto.updateStatus(OrderStatus.PAYMENT_COMPLETE); // 임시로 기본 값 PAYMENT_COMPLETE
-        orderDto.updateTotalPrice(productRepository.findById(orderDto.getProductId()).orElseThrow(() ->
-                new EntityNotFoundException("User not found with id " + orderDto.getProductId())).getProductPrice());
+    public void saveOrder(OrderDto orderDto) {
+        orderDto.setOrderStatus(OrderStatus.PAYMENT_COMPLETE); // 임시로 기본 값 PAYMENT_COMPLETE
+        orderDto.setTotalPrice(productRepository.findById(orderDto.getProductId()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + orderDto.getProductId()))
+                .getProductPrice() * orderDto.getNumberOfProducts());
         orderRepository.save(orderDto.toEntity());
     }
 
-    public void orderDelete(OrderDto orderDto) {
+    public void deleteOrder(OrderDto orderDto) {
         orderRepository.deleteById(orderDto.getOrderId());
     }
 
-    public Order orderSearch(OrderDto orderDto) {
-        return orderRepository.findById(orderDto.getOrderId()).orElseThrow(() ->
-                new EntityNotFoundException("User not found with id " + orderDto.getOrderId()));
+    public Order searchOrder(OrderDto orderDto) {
+        return orderRepository.findById(orderDto.getOrderId()).orElseThrow(() -> new EntityNotFoundException("User not found with id " + orderDto.getOrderId()));
     }
 
-    public void orderUpdate(OrderDto orderDto) {
-        Order oldData = orderRepository.findById(orderDto.getOrderId()).orElseThrow(()->
-                new EntityNotFoundException("User not found with id" + orderDto.getOrderId()));
+    public void updateOrder(OrderDto orderDto) {
+        Order oldData = orderRepository.findById(orderDto.getOrderId()).orElseThrow(() -> new EntityNotFoundException("User not found with id" + orderDto.getOrderId()));
         OrderDto newData = orderDto.updateOrder(oldData);
-        newData.updateTotalPrice(productRepository.findById(newData.getProductId()).orElseThrow(EntityNotFoundException::new).getProductPrice());
+        newData.setTotalPrice(productRepository.findById(newData.getProductId()).orElseThrow(EntityNotFoundException::new)
+                .getProductPrice() * newData.getNumberOfProducts());
         orderRepository.save(newData.toEntity());
     }
 }

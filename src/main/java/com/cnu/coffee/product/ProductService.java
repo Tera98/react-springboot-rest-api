@@ -12,20 +12,20 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
-    public void productSave(ProductDto productdto) {
+    public void saveProduct(ProductDto productdto) {
         productRepository.save(productdto.toEntity());
     }
 
-    public void productUpdate(ProductDto productDto) {
+    public void updateProduct(ProductDto productDto) {
         Product oldData = productRepository.findById(productDto.getProductId()).orElseThrow(() ->
                 new EntityNotFoundException("User not found with id " + productDto.getProductId()));
         productRepository.save(productDto.updateProduct(oldData));
     }
-    public Optional<Product> productSearch(ProductDto productDto) {
+    public Optional<Product> searchProduct(ProductDto productDto) {
         return Optional.ofNullable(productRepository.findById(productDto.getProductId()).orElseThrow(() ->
                 new EntityNotFoundException("User not found with id " + productDto.getProductId())));
     }
-    public void productDelete(ProductDto productDto) {
+    public void deleteProduct(ProductDto productDto) {
         productRepository.deleteById(productDto.getProductId());
     }
 

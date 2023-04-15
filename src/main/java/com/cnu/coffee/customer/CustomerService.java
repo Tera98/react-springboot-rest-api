@@ -8,7 +8,7 @@ public class CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
-    public void customerSave(CustomerDto customerDto) {
-        customerRepository.save(customerDto.toEntity(customerDto));
+    public void saveCustomer(CustomerDto customerDto) {
+        customerRepository.save(customerDto.toEntity());
     }
 }

@@ -6,28 +6,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/order")
 public class OrderController {
 
     @Autowired
     OrderService orderService;
 
-    @RequestMapping("/order/save")
-    public void orderSave(@RequestBody OrderDto orderDto) {
-        orderService.orderSave(orderDto);
+    @RequestMapping("/save")
+    public void saveOrder(@RequestBody OrderDto orderDto) {
+        orderService.saveOrder(orderDto);
     }
 
-    @RequestMapping("/order/search")
-    public Order orderSearch(@RequestBody OrderDto orderDto) {
-        return orderService.orderSearch(orderDto);
+    @RequestMapping("/search")
+    public Order searchOrder(@RequestBody OrderDto orderDto) {
+        return orderService.searchOrder(orderDto);
     }
 
-    @RequestMapping("/order/update")
-    public void orderUpdate(@RequestBody OrderDto orderDto) {
-        orderService.orderUpdate(orderDto);
+    @RequestMapping("/update")
+    public void updateOrder(@RequestBody OrderDto orderDto) {
+        orderService.updateOrder(orderDto);
     }
 
-    @RequestMapping("/order/delete")
-    public void orderDelete(@RequestBody OrderDto orderDto) {
-        orderService.orderDelete(orderDto);
+    @RequestMapping("/delete")
+    public void deleteOrder(@RequestBody OrderDto orderDto) {
+        orderService.deleteOrder(orderDto);
     }
 }

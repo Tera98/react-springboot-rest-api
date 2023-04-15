@@ -6,28 +6,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
     ProductService productService;
 
-    @RequestMapping("/product/save")
-    public void productSave(@RequestBody ProductDto productDto) {
-        productService.productSave(productDto);
+    @RequestMapping("/save")
+    public void saveProduct(@RequestBody ProductDto productDto) {
+        productService.saveProduct(productDto);
     }
 
-    @RequestMapping("/product/update")
-    public void productUpdate(@RequestBody ProductDto productDto) {
-        productService.productUpdate(productDto);
+    @RequestMapping("/update")
+    public void updateProduct(@RequestBody ProductDto productDto) {
+        productService.updateProduct(productDto);
     }
 
-    @RequestMapping("/product/search")
-    public Optional<Product> productSearch(@RequestBody ProductDto productDto){
-        return productService.productSearch(productDto);
+    @RequestMapping("/search")
+    public Optional<Product> searchProduct(@RequestBody ProductDto productDto) {
+        return productService.searchProduct(productDto);
     }
 
-    @RequestMapping("/product/delete")
-    public void productDelete(@RequestBody ProductDto productDto){
-        productService.productDelete(productDto);
+    @RequestMapping("/delete")
+    public void deleteProduct(@RequestBody ProductDto productDto) {
+        productService.deleteProduct(productDto);
     }
 }

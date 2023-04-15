@@ -19,10 +19,10 @@ public class ProductDto {
 
     public Product toEntity() {
         return Product.builder()
-                .productId(this.productId)
-                .productName(this.productName)
-                .productPrice(this.productPrice)
-                .productOrigin(this.productOrigin)
+                .productId(productId)
+                .productName(productName)
+                .productPrice(productPrice)
+                .productOrigin(productOrigin)
                 .build();
     }
 
