@@ -2,8 +2,6 @@ package com.cnu.coffee.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -12,20 +10,24 @@ import java.util.Optional;
 public class ProductService {
 
     @Autowired
-    ProductRepository pr;
+    ProductRepository productRepository;
 
-    public void save(ProductDto productdto) {
-        Product product = productdto.toEntity(productdto);
-        pr.save(product);
+    public void productSave(ProductDto productdto) {
+        productRepository.save(productdto.toEntity());
     }
 
-    public void update(ProductDto productDto) {
-        Product product = pr.findById(productDto.getId()).orElseThrow(() ->
-                new EntityNotFoundException("User not found with id " + productDto.getId()));
-        pr.save(product.updateProduct(product,productDto));
+    public void productUpdate(ProductDto productDto) {
+        Product product = productRepository.findById(productDto.getProductId()).orElseThrow(() ->
+                new EntityNotFoundException("User not found with id " + productDto.getProductId()));
+        productRepository.save(productDto.updateProduct(product,productDto));
+    }
+    public Optional<Product> productSearch(ProductDto productDto) {
+        return Optional.ofNullable(productRepository.findById(productDto.getProductId()).orElseThrow(() ->
+                new EntityNotFoundException("User not found with id " + productDto.getProductId())));
+    }
+    public void productDelete(ProductDto productDto) {
+        productRepository.deleteById(productDto.getProductId());
     }
 
-    public void delete(ProductDto productDto) {
-        pr.deleteById(productDto.getId());
-    }
+
 }

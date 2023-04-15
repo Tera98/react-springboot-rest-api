@@ -1,36 +1,34 @@
 package com.cnu.coffee.product;
 
-
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Optional;
-
+import lombok.Setter;
+import org.modelmapper.ModelMapper;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class ProductDto {
 
-    Long id;
-    String name;
-    Integer price;
-    String origin;
+    Long productId;
+    String productName;
+    Integer productPrice;
+    String productOrigin;
 
-    @Builder
-    public ProductDto(Long id, String name, Integer price, String origin) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.origin = origin;
+    public Product toEntity() {
+        return Product.builder()
+                .productId(this.productId)
+                .productName(this.productName)
+                .productPrice(this.productPrice)
+                .productOrigin(this.productOrigin)
+                .build();
     }
 
-    public Product toEntity(ProductDto productdto) {
-        return Product.builder()
-                .id(this.id)
-                .name(this.name)
-                .price(this.price)
-                .origin(this.origin)
-                .build();
+    public Product updateProduct(Product product, ProductDto newData) {
+        ProductDto oldData = product.toDto();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        modelMapper.map(newData, oldData);
+        return oldData.toEntity();
     }
 }
