@@ -46,32 +46,7 @@ public class OrderDto {
     }
 
     public void modifyStatus(String status) {
-        switch (status) {
-            case "paid":
-                if (orderStatus != OrderStatus.ORDER_ACCEPTED) throw new OrderException(OrderExceptionType.INVALID_STATUS);
-                orderStatus = OrderStatus.PAYMENT_COMPLETE;
-                break;
-            case "prepared":
-                if (orderStatus != OrderStatus.PAYMENT_COMPLETE) throw new OrderException(OrderExceptionType.INVALID_STATUS);
-                orderStatus = OrderStatus.PREPARING_PRODUCT;
-                break;
-            case "started":
-                if (orderStatus != OrderStatus.PREPARING_PRODUCT) throw new OrderException(OrderExceptionType.INVALID_STATUS);
-                orderStatus = OrderStatus.START_DELIVERING;
-                break;
-            case "delivering":
-                if (orderStatus != OrderStatus.START_DELIVERING) throw new OrderException(OrderExceptionType.INVALID_STATUS);
-                orderStatus = OrderStatus.DELIVERING;
-                break;
-            case "delivered":
-                if (orderStatus != OrderStatus.DELIVERING) throw new OrderException(OrderExceptionType.INVALID_STATUS);
-                orderStatus = OrderStatus.DELIVERING_COMPLETE;
-                break;
-            case "returning":
-                orderStatus = OrderStatus.RETURNING;
-                break;
-            default:
-                throw new OrderException(OrderExceptionType.INVALID_INPUT);
-        }
+        if (!orderStatus.canModifyStatus(status)) throw new OrderException(OrderExceptionType.INVALID_STATUS);
+        orderStatus = orderStatus.modifyStatus(status);
     }
 }

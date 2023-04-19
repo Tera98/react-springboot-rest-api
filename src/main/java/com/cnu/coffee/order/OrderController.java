@@ -18,7 +18,7 @@ public class OrderController {
         orderService.saveOrder(orderDto);
     }
 
-    @RequestMapping("/{orderId}") // 추후 기능 고도화
+    @RequestMapping("/search/{orderId}") // 추후 기능 고도화
     public Order searchOrder(@PathVariable Long orderId) {
         return orderService.searchOrder(orderId);
     }
@@ -28,7 +28,7 @@ public class OrderController {
         orderService.updateOrder(orderDto);
     }
 
-    @RequestMapping("/{orderId}")
+    @RequestMapping("/delete/{orderId}")
     public void deleteOrder(@PathVariable Long orderId) {
         orderService.deleteOrder(orderId);
     }
