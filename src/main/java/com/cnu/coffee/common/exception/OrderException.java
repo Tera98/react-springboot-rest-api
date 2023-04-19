@@ -1,4 +1,4 @@
-package com.cnu.coffee.order.exception;
+package com.cnu.coffee.common.exception;
 
 public class OrderException extends RuntimeException {
     private final OrderExceptionType orderExceptionType;

@@ -1,8 +1,9 @@
-package com.cnu.coffee.order.exception;
+package com.cnu.coffee.common.exception;
 
 public enum OrderExceptionType {
 
-    INVALID_STATUS("Invalid orderStatus");
+    INVALID_STATUS("Invalid orderStatus"),
+    INVALID_INPUT("Invalid input status");
 
     private final String errorMessage;
 
