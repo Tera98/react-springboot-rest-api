@@ -16,14 +16,18 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long customerId;
+    String loginId;
+    String loginPw;
     String customerName;
     String customerEmail;
     String customerPhoneNum;
     String customerAddress;
 
     @Builder
-    public Customer(Long customerId, String customerName, String customerEmail, String customerPhoneNum, String customerAddress) {
+    public Customer(Long customerId, String loginId, String loginPw, String customerName, String customerEmail, String customerPhoneNum, String customerAddress) {
         this.customerId = customerId;
+        this.loginId = loginId;
+        this.loginPw = loginPw;
         this.customerName = customerName;
         this.customerEmail = customerEmail;
         this.customerPhoneNum = customerPhoneNum;

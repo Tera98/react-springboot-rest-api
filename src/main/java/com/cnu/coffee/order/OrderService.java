@@ -23,8 +23,8 @@ public class OrderService {
         orderRepository.save(orderDto.toEntity());
     }
 
-    public Order searchOrder(Long orderId) {
-        return orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + orderId));
+    public Order searchOrder(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + id));
     }
 
     public void updateOrder(OrderDto orderDto) {
@@ -39,8 +39,8 @@ public class OrderService {
         orderRepository.save(newData.toEntity());
     }
 
-    public void deleteOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + orderId));
+    public void deleteOrder(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + id));
         OrderStatus orderStatus = order.getOrderStatus();
         if (orderStatus != OrderStatus.ORDER_ACCEPTED && orderStatus != OrderStatus.PAYMENT_COMPLETE) {
             throw new OrderException(OrderExceptionType.INVALID_STATUS);
@@ -48,8 +48,8 @@ public class OrderService {
         orderRepository.delete(order);
     }
 
-    public void modifyOrderStatus(Long orderId, String status) {
-        OrderDto orderDto = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + orderId)).toDto();
+    public void modifyOrderStatus(Long id, String status) {
+        OrderDto orderDto = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + id)).toDto();
         orderDto.modifyStatus(status);
         orderRepository.save(orderDto.toEntity());
     }

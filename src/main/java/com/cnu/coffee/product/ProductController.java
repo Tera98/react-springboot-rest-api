@@ -1,9 +1,10 @@
 package com.cnu.coffee.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/product")
@@ -22,13 +23,13 @@ public class ProductController {
         productService.updateProduct(productDto);
     }
 
-    @RequestMapping("/search")
-    public Optional<Product> searchProduct(@RequestBody ProductDto productDto) {
-        return productService.searchProduct(productDto);
+    @RequestMapping("/search/{id}")
+    public Product searchProduct(@PathVariable Long id) {
+        return productService.searchProduct(id);
     }
 
-    @RequestMapping("/delete")
-    public void deleteProduct(@RequestBody ProductDto productDto) {
-        productService.deleteProduct(productDto);
+    @RequestMapping("/delete/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
     }
 }

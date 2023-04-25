@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -21,13 +20,13 @@ public class ProductService {
                 new EntityNotFoundException("User not found with id " + productDto.getProductId()));
         productRepository.save(productDto.updateProduct(oldData));
     }
-    public Optional<Product> searchProduct(ProductDto productDto) {
-        return Optional.ofNullable(productRepository.findById(productDto.getProductId()).orElseThrow(() ->
-                new EntityNotFoundException("User not found with id " + productDto.getProductId())));
-    }
-    public void deleteProduct(ProductDto productDto) {
-        productRepository.deleteById(productDto.getProductId());
+
+    public Product searchProduct(Long id) {
+        return productRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("User not found with id " + id));
     }
 
-
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
 }
