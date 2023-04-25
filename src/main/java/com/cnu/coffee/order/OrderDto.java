@@ -1,13 +1,18 @@
 package com.cnu.coffee.order;
 
+import com.cnu.coffee.common.exception.OrderException;
+import com.cnu.coffee.common.exception.OrderExceptionType;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 
-@Getter
-@Setter
+import java.time.LocalDateTime;
+
+import static com.cnu.coffee.common.GetNullPropertyNames.getNullPropertyNames;
+
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDto {
@@ -15,34 +20,33 @@ public class OrderDto {
     Long orderId;
     Long productId;
     Long customerId;
-    String orderStatus;
+    OrderStatus orderStatus;
     Integer numberOfProducts;
     Integer totalPrice;
+    LocalDateTime orderCreatedAt;
+    LocalDateTime orderUpdatedAt;
 
     public Order toEntity() {
         return Order.builder()
-                .orderId(this.orderId)
-                .customerId(this.customerId)
-                .productId(this.productId)
-                .orderStatus(this.orderStatus)
-                .numberOfProducts(this.numberOfProducts)
-                .totalPrice(this.totalPrice)
+                .orderId(orderId)
+                .customerId(customerId)
+                .productId(productId)
+                .orderStatus(orderStatus)
+                .numberOfProducts(numberOfProducts)
+                .totalPrice(totalPrice)
+                .orderCreatedAt(orderCreatedAt)
+                .orderUpdatedAt(LocalDateTime.now())
                 .build();
-    }
-
-    public void updateStatus(OrderStatus orderStatus) {
-        this.orderStatus = String.valueOf(orderStatus);
-    }
-
-    public void updateTotalPrice(int price) {
-        this.totalPrice = price * this.numberOfProducts;
     }
 
     public OrderDto updateOrder(Order order) {
         OrderDto oldData = order.toDto();
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        modelMapper.map(this, oldData);
+        BeanUtils.copyProperties(this, oldData, getNullPropertyNames(this));
         return oldData;
+    }
+
+    public void modifyStatus(String status) {
+        if (!orderStatus.canModifyStatus(status)) throw new OrderException(OrderExceptionType.INVALID_STATUS);
+        orderStatus = orderStatus.modifyStatus(status);
     }
 }

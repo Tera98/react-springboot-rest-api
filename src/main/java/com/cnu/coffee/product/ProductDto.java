@@ -3,7 +3,9 @@ package com.cnu.coffee.product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
+
+import static com.cnu.coffee.common.GetNullPropertyNames.getNullPropertyNames;
 
 @Getter
 @Setter
@@ -17,18 +19,16 @@ public class ProductDto {
 
     public Product toEntity() {
         return Product.builder()
-                .productId(this.productId)
-                .productName(this.productName)
-                .productPrice(this.productPrice)
-                .productOrigin(this.productOrigin)
+                .productId(productId)
+                .productName(productName)
+                .productPrice(productPrice)
+                .productOrigin(productOrigin)
                 .build();
     }
 
-    public Product updateProduct(Product product, ProductDto newData) {
+    public Product updateProduct(Product product) {
         ProductDto oldData = product.toDto();
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
-        modelMapper.map(newData, oldData);
+        BeanUtils.copyProperties(this, oldData, getNullPropertyNames(this));
         return oldData.toEntity();
     }
 }

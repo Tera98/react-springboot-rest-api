@@ -1,33 +1,35 @@
 package com.cnu.coffee.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
     ProductService productService;
 
-    @RequestMapping("/product/save")
-    public void productSave(@RequestBody ProductDto productDto) {
-        productService.productSave(productDto);
+    @RequestMapping("/save")
+    public void saveProduct(@RequestBody ProductDto productDto) {
+        productService.saveProduct(productDto);
     }
 
-    @RequestMapping("/product/update")
-    public void productUpdate(@RequestBody ProductDto productDto) {
-        productService.productUpdate(productDto);
+    @RequestMapping("/update")
+    public void updateProduct(@RequestBody ProductDto productDto) {
+        productService.updateProduct(productDto);
     }
 
-    @RequestMapping("/product/search")
-    public Optional<Product> productSearch(@RequestBody ProductDto productDto){
-        return productService.productSearch(productDto);
+    @RequestMapping("/search/{id}")
+    public Product searchProduct(@PathVariable Long id) {
+        return productService.searchProduct(id);
     }
 
-    @RequestMapping("/product/delete")
-    public void productDelete(@RequestBody ProductDto productDto){
-        productService.productDelete(productDto);
+    @RequestMapping("/delete/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
     }
 }

@@ -1,6 +1,7 @@
 package com.cnu.coffee.order;
 
-import com.cnu.coffee.product.Product;
+import com.cnu.coffee.common.exception.OrderException;
+import com.cnu.coffee.common.exception.OrderExceptionType;
 import com.cnu.coffee.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,27 +16,41 @@ public class OrderService {
     @Autowired
     ProductRepository productRepository;
 
-    public void orderSave(OrderDto orderDto) {
-        orderDto.updateStatus(OrderStatus.ORDER_ACCEPTED);
-        orderDto.updateTotalPrice(productRepository.findById(orderDto.getProductId()).orElseThrow(() ->
-                new EntityNotFoundException("User not found with id " + orderDto.getProductId())).getProductPrice());
+    public void saveOrder(OrderDto orderDto) {
+        orderDto.setOrderStatus(OrderStatus.ORDER_ACCEPTED);
+        orderDto.setTotalPrice(productRepository.findById(orderDto.getProductId()).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + orderDto.getProductId()))
+                .getProductPrice() * orderDto.getNumberOfProducts());
         orderRepository.save(orderDto.toEntity());
     }
 
-    public void orderDelete(OrderDto orderDto) {
-        orderRepository.deleteById(orderDto.getOrderId());
+    public Order searchOrder(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + id));
     }
 
-    public Order orderSearch(OrderDto orderDto) {
-        return orderRepository.findById(orderDto.getOrderId()).orElseThrow(() ->
-                new EntityNotFoundException("User not found with id " + orderDto.getOrderId()));
+    public void updateOrder(OrderDto orderDto) {
+        Order oldData = orderRepository.findById(orderDto.getOrderId()).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + orderDto.getOrderId()));
+        OrderStatus orderStatus = oldData.getOrderStatus();
+        if (orderStatus != OrderStatus.ORDER_ACCEPTED && orderStatus != OrderStatus.PAYMENT_COMPLETE) {
+            throw new OrderException(OrderExceptionType.INVALID_STATUS);
+        }
+        OrderDto newData = orderDto.updateOrder(oldData);
+        newData.setTotalPrice(productRepository.findById(newData.getProductId()).orElseThrow(EntityNotFoundException::new)
+                .getProductPrice() * newData.getNumberOfProducts());
+        orderRepository.save(newData.toEntity());
     }
 
-    public void orderUpdate(OrderDto newData) {
-        Order oldData = orderRepository.findById(newData.getOrderId()).orElseThrow(()->
-                new EntityNotFoundException("User not found with id" + newData.getOrderId()));
-        OrderDto orderDto = newData.updateOrder(oldData);
-        orderDto.updateTotalPrice(productRepository.findById(orderDto.getProductId()).orElseThrow(EntityNotFoundException::new).getProductPrice());
+    public void deleteOrder(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + id));
+        OrderStatus orderStatus = order.getOrderStatus();
+        if (orderStatus != OrderStatus.ORDER_ACCEPTED && orderStatus != OrderStatus.PAYMENT_COMPLETE) {
+            throw new OrderException(OrderExceptionType.INVALID_STATUS);
+        }
+        orderRepository.delete(order);
+    }
+
+    public void modifyOrderStatus(Long id, String status) {
+        OrderDto orderDto = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id " + id)).toDto();
+        orderDto.modifyStatus(status);
         orderRepository.save(orderDto.toEntity());
     }
 }
